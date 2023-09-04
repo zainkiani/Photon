@@ -1,0 +1,45 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+}
+#logo{
+    text-decoration: none;
+    color: black;
+    font-size: 2rem;
+}
+h2{
+    padding: 2rem;
+}
+.search-form{
+    display: flex;
+    /* padding: 2rem; */
+    
+}
+.search-input{
+    font-size: 1.5rem;
+    border: none;
+    border: 2px solid rgb(41, 41, 78);
+    
+}
+.submit-btn{
+    font-size: 1rem;
+    border: none;
+    padding: 1rem;
+    color: white;
+    background:rgb(41, 41, 78) ;
+    border: 2px solid rgb(41, 41, 78);
+    cursor: pointer;
+}
+.submit-btn:hover{
+    color: white;
+    background:rgb(26, 204, 20);
+    transition: 0.5s all ease-out;
+}
