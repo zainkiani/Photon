@@ -8,8 +8,8 @@ let searchValue;
 //event listeners
 searchInput.addEventListener("input",updateInput);
 form.addEventListener("submit",(e)=>{
-    searchPhotos(searchValue);
-    e.preventDefault;
+   searchPhotos(searchValue);
+    e.preventDefault();
 })
 
 
@@ -23,9 +23,8 @@ async function fetchApi(url){
         method:"GET",
         headers:{
            Accept:"application/json",
-        // Accept: "*/*",
-            Authorization: auth
-        }
+            Authorization: auth,
+           }
     })
     const data = await dataFetch.json();
     return data;
@@ -35,9 +34,13 @@ function gererateHtml(data){
     data.photos.forEach(photo => {
         const galleryImg = document.createElement("div");
         galleryImg.classList.add("gallery-img")
-        galleryImg.innerHTML = `<img src=${photo.src.large}></img>
-        <p>${photo.photographer}</p>
-        `;
+        galleryImg.innerHTML = `
+            <div class ="gallery-info">
+                <p>${photo.photographer}</p>
+                <a target="blank" href=${photo.src.original}>Download</a>
+            </div>
+            <img src=${photo.src.large}></img>
+            `;
         gallery.appendChild(galleryImg);
     });
 }
@@ -58,6 +61,7 @@ async function searchPhotos(query){
 
 function clear(){
     gallery.innerHTML="";
+    searchInput.value="";
 }
 curatedPhotos();
 
