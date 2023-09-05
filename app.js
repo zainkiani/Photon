@@ -4,12 +4,20 @@ const auth = "JTU0TF8I8WDH4k3hsSE0qmyia8adMPkltxwDe9Os4QeSTDNe9JEvWage";
 const gallery = document.querySelector(".gallery");
 const searchInput = document.querySelector(".search-input");
 const form = document.querySelector(".search-form");
+const more = document.querySelector(".more");
 let searchValue;
+let fetchLink;
+let currentSearch;
+let page=1;
+
 //event listeners
+more.addEventListener("click",morePhotos);
+
 searchInput.addEventListener("input",updateInput);
 form.addEventListener("submit",(e)=>{
    searchPhotos(searchValue);
     e.preventDefault();
+    currentSearch = searchValue;
 })
 
 
@@ -35,11 +43,12 @@ function gererateHtml(data){
         const galleryImg = document.createElement("div");
         galleryImg.classList.add("gallery-img")
         galleryImg.innerHTML = `
+        <img src=${photo.src.large}></img>
             <div class ="gallery-info">
                 <p>${photo.photographer}</p>
                 <a target="blank" href=${photo.src.original}>Download</a>
             </div>
-            <img src=${photo.src.large}></img>
+            
             `;
         gallery.appendChild(galleryImg);
     });
@@ -47,7 +56,8 @@ function gererateHtml(data){
 
 
 async function curatedPhotos(){
-    const data =await fetchApi("https://api.pexels.com/v1/curated?page=1&per_page=15");
+    fetchLink = "https://api.pexels.com/v1/curated?page=1&per_page=15"
+    const data =await fetchApi(fetchLink);
     
     gererateHtml(data);
 }
@@ -55,7 +65,8 @@ async function curatedPhotos(){
 
 async function searchPhotos(query){
     clear();
-    const data  = await fetchApi(`https://api.pexels.com/v1/search?query=${query}&per_page=15&page=1`);
+    fetchLink = `https://api.pexels.com/v1/search?query=${query}&per_page=15&page=1`;
+    const data  = await fetchApi(fetchLink);
     gererateHtml(data);
 }
 
@@ -63,6 +74,20 @@ function clear(){
     gallery.innerHTML="";
     searchInput.value="";
 }
+
+async function morePhotos(){
+    page++;
+    if(currentSearch){
+        fetchLink = `https://api.pexels.com/v1/search?query=${currentSearch}&per_page=15&page=${page}`;
+        
+    }else{
+        fetchLink = `https://api.pexels.com/v1/curated?page=${page}&per_page=15`;
+    
+    }
+    const data  = await fetchApi(fetchLink);
+    gererateHtml(data);
+}
+
 curatedPhotos();
 
 
